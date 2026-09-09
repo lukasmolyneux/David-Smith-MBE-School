@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brick by Brick — The David Smith MBE School | ISF Cambodia</title>
+<style>
+  :root{
+    --navy:#16336b;
+    --navy-dark:#0f2450;
+    --red:#b03a2e;
+    --orange:#d97c4a;
+    --cream:#fdfbf3;
+    --sand:#eeece1;
+    --ink:#1c1c1c;
+    --grey:#5c5c5c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+  }
+  .serif{
+    font-family:Georgia, 'Times New Roman', serif;
+  }
+  .wrap{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  .logo-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:36px 0 10px;
+  }
+  .logo-row .star{
+    width:30px;height:30px;
+    color:var(--red);
+  }
+  .logo-row .logotext{
+    font-weight:700;
+    color:var(--navy);
+    font-size:1.1rem;
+    line-height:1.1;
+  }
+  .eyebrow{
+    text-align:center;
+    color:var(--grey);
+    font-size:0.95rem;
+    margin:0 0 6px;
+  }
+  section{
+    padding:44px 0;
+  }
+  .section-inner{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  h2.section-title{
+    font-family:Georgia, serif;
+    font-weight:700;
+    font-size:1.9rem;
+    color:var(--ink);
+    text-align:center;
+    margin:0 0 8px;
+  }
+  p.section-lead{
+    text-align:center;
+    color:var(--grey);
+    max-width:640px;
+    margin:0 auto 30px;
+    line-height:1.6;
+  }
+
+  .tiers-band{
+    background:var(--sand);
+  }
+  .tier-card{
+    background:#fff;
+    border-radius:14px;
+    padding:20px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    gap:16px;
+  }
+  .tier-card .name{
+    font-weight:700;
+    color:var(--navy);
+    font-size:1.02rem;
+  }
+  .tier-card .desc{
+    color:var(--grey);
+    font-size:0.88rem;
+    margin-top:3px;
+  }
+  .tier-card .figs{
+    text-align:right;
+    white-space:nowrap;
+  }
+  .tier-card .figs .amt{
+    font-weight:700;
+    color:var(--red);
+    font-size:1.05rem;
+  }
+  .tier-card .figs .cnt{
+    color:var(--grey);
+    font-size:0.82rem;
+  }
+  .tier-total{
+    background:var(--navy);
+    color:#fff;
+    border-radius:14px;
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:700;
+    margin-top:16px;
+  }
+  .tier-total .amt{color:#f3d9c9;font-size:1.2rem;}
+  .note-strip{
+    background:#fff;
+    border-left:4px solid var(--orange);
+    border-radius:8px;
+    padding:14px 18px;
+    color:var(--grey);
+    font-size:0.88rem;
+    margin-top:20px;
+    line-height:1.5;
+  }
+
+  .stats-band{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:34px 0;
+  }
+  .stats-band .pct{
+    font-family:Georgia,serif;
+    font-weight:700;
+    font-size:3rem;
+    color:#fff;
+    margin:0;
+  }
+  .stats-band .label1{
+    font-weight:700;
+    margin:2px 0 0;
+  }
+  .stats-band .label2{
+    color:#cdd7ea;
+    margin:2px 0 0;
+    font-size:0.95rem;
+  }
+
+  .wall-band{
+    background:var(--cream);
+  }
+  .wall-frame{
+    background:#fff;
+    border-radius:16px;
+    padding:24px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .wall-stats-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .wall-stats-row .raised{
+    font-weight:700;
+    color:var(--navy);
+    font-size:1.05rem;
+  }
+  .wall-stats-row .goal{
+    color:var(--grey);
+    font-size:0.9rem;
+  }
+  .progress-wrap{
+    background:var(--sand);
+    border-radius:20px;
+    height:14px;
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .progress-bar{
+    height:100%;
+    background:var(--red);
+    border-radius:20px;
+    transition:width 0.6s ease;
+  }
+  #wall{
+    display:grid;
+    grid-template-columns:repeat(40, 1fr);
+    gap:3px;
+    margin-bottom:18px;
+  }
+  .brick-unit{
+    aspect-ratio:2.4/1;
+    border-radius:2px;
+    background:var(--sand);
+    transition:background 0.3s ease;
+  }
+  .brick-unit.filled{
+    background:var(--red);
+  }
+  .brick-unit.partial{
+    background:linear-gradient(90deg, var(--red) var(--partial-pct,50%), var(--sand) var(--partial-pct,50%));
+  }
+  .wall-caption{
+    text-align:center;
+    color:var(--grey);
+    font-size:0.82rem;
+    margin-top:6px;
+  }
+  .legend{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    font-size:0.85rem;
+    color:var(--grey);
+    margin-top:16px;
+  }
+  .legend .swatch{
+    display:inline-block;
+    width:13px;height:13px;
+    border-radius:3px;
+    margin-right:6px;
+    vertical-align:middle;
+  }
+
+  .controls{
+    max-width:900px;
+    margin:26px auto 0;
+    padding:0 24px;
+  }
+  .controls-card{
+    background:var(--sand);
+    border-radius:14px;
+    padding:20px 22px;
+  }
+  .controls-card label{
+    font-weight:700;
+    color:var(--navy);
+    display:block;
+    margin-bottom:8px;
+    font-size:0.92rem;
+  }
+  .controls-card input{
+    padding:10px 12px;
+    border:1px solid #d3cfc0;
+    border-radius:8px;
+    font-size:0.95rem;
+    width:200px;
+    margin-right:10px;
+    background:#fff;
+  }
+  .controls-card button{
+    background:var(--red);
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:20px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:0.9rem;
+  }
+  .controls-card button:hover{opacity:0.9;}
+  .controls-card .hint{
+    font-size:0.78rem;
+    color:var(--grey);
+    margin-top:10px;
+  }
+
+  .cta-band{
+    text-align:center;
+    padding:50px 24px 60px;
+  }
+  .cta-band p{
+    color:var(--grey);
+    margin-bottom:22px;
+  }
+  .btn-pill{
+    display:inline-block;
+    background:var(--red);
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    padding:14px 34px;
+    border-radius:30px;
+    font-size:1rem;
+  }
+
+  footer{
+    text-align:center;
+    padding:26px 20px 40px;
+    color:#9a9a9a;
+    font-size:0.78rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="logo-row">
+  <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+  <span class="logotext serif">ISF<br>Cambodia</span>
+</div>
+<p class="eyebrow">The David Smith MBE School</p>
+<h2 class="section-title" style="margin-bottom:34px;">Brick by Brick</h2>
+
+<section class="tiers-band">
+  <div class="section-inner">
+    <h2 class="section-title">Naming Donation Tiers</h2>
+    <p class="section-lead">Every named space and plaque is a separate way to support the school — distinct from the brick wall below, which covers everything else needed to bring the David Smith MBE School to life.</p>
+
+    <div class="tier-card">
+      <div>
+        <div class="name">Major Spaces</div>
+        <div class="desc">Kitchen & Dining Room, Football Pitch</div>
+      </div>
+      <div class="figs">
+        <div class="amt">$35,000 each</div>
+        <div class="cnt">2 available</div>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div>
+        <div class="name">Smaller Spaces</div>
+        <div class="desc">Classrooms & programme rooms</div>
+      </div>
+      <div class="figs">
+        <div class="amt">$20,000 each</div>
+        <div class="cnt">14 available</div>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div>
+        <div class="name">Dedication Plaques</div>
+        <div class="desc">Permanent recognition within the school</div>
+      </div>
+      <div class="figs">
+        <div class="amt">$15,000 each</div>
+        <div class="cnt">10 available</div>
+      </div>
+    </div>
+
+    <div class="tier-total">
+      <span>Naming donations total</span>
+      <span class="amt">$500,000</span>
+    </div>
+
+    <div class="note-strip">
+      Naming tier gifts are tracked separately from the brick wall. The wall below represents only the remaining <strong>$850,000</strong> of the $1.35M goal — the foundations and build costs every gift helps lay, brick by brick.
+    </div>
+  </div>
+</section>
+
+<section class="stats-band">
+  <p class="pct" id="pctDisplay">15%</p>
+  <p class="label1">of our $1.35M Goal</p>
+  <p class="label2" id="raisedSub">over $200,000 raised</p>
+</section>
+
+<section class="wall-band">
+  <div class="section-inner">
+    <h2 class="section-title">Building the Foundations</h2>
+    <p class="section-lead">The remaining <strong>$850,000</strong> is laid brick by brick — 8,500 bricks at $100 each, each square below representing 100 bricks so the wall stays clean and easy to read.</p>
+
+    <div class="wall-frame">
+      <div class="wall-stats-row">
+        <span class="raised" id="raisedLabel">$200,000 raised</span>
+        <span class="goal" id="goalLabel">of $850,000 needed for the build</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar" style="width:23.5%"></div>
+      </div>
+
+      <div id="wall"></div>
+      <p class="wall-caption">Each square = 100 bricks ($10,000) &nbsp;•&nbsp; <span id="bricksFilledLabel">2,000 / 8,500 bricks laid</span></p>
+
+      <div class="legend">
+        <span><span class="swatch" style="background:var(--red)"></span>Bricks laid</span>
+        <span><span class="swatch" style="background:var(--sand)"></span>Bricks remaining</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="controls-card">
+      <label for="fundsInput">Update funds raised toward the build (foundations pool)</label>
+      <input type="number" id="fundsInput" min="0" max="850000" step="1000" placeholder="e.g. 200000">
+      <button onclick="updateFunds()">Update Wall</button>
+      <p class="hint">Enter the total currently donated toward the $850,000 brick pool (excludes naming tier gifts). The wall, progress bar and stats above update instantly. Edit the <code>fundsRaisedSoFar</code> value in this file to change what loads by default.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2 class="section-title" style="margin-bottom:10px;">One School. Thousands of Opportunities.</h2>
+  <p>Join us in building something that lasts.</p>
+  <a href="https://isfcambodia.supporter.club/clubs/0OWTEA/ambassadors/oQEu5A" class="btn-pill">Help Us Buy the Land</a>
+</section>
+
+<footer>
+  Brick by Brick — The David Smith MBE School, ISF Cambodia. Host this file (e.g. GitHub Pages) and share the resulting link.
+</footer>
+
+<script>
+  const totalProject = 1350000;
+  const namingTotal = 500000;
+  const brickPool = totalProject - namingTotal;
+  const brickCost = 100;
+  const totalBricks = brickPool / brickCost;
+  const unitsInWall = 85;
+  const bricksPerUnit = totalBricks / unitsInWall;
+
+  let fundsRaisedSoFar = 200000;
+
+  const wall = document.getElementById('wall');
+  const progressBar = document.getElementById('progressBar');
+  const raisedLabel = document.getElementById('raisedLabel');
+  const goalLabel = document.getElementById('goalLabel');
+  const bricksFilledLabel = document.getElementById('bricksFilledLabel');
+  const pctDisplay = document.getElementById('pctDisplay');
+  const raisedSub = document.getElementById('raisedSub');
+
+  function formatCurrency(n){
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function buildWall(){
+    wall.innerHTML = '';
+    for(let i=0;i<unitsInWall;i++){
+      const d = document.createElement('div');
+      d.className = 'brick-unit';
+      d.title = 'Represents ' + Math.round(bricksPerUnit) + ' bricks ($' + (bricksPerUnit*brickCost).toLocaleString() + ')';
+      wall.appendChild(d);
+    }
+  }
+
+  function renderState(){
+    const bricksFilled = Math.min(totalBricks, Math.floor(fundsRaisedSoFar / brickCost));
+    const unitsFullyFilled = Math.floor(bricksFilled / bricksPerUnit);
+    const remainder = (bricksFilled / bricksPerUnit) - unitsFullyFilled;
+
+    const units = document.querySelectorAll('.brick-unit');
+    units.forEach((u, idx) => {
+      u.classList.remove('filled','partial');
+      u.style.removeProperty('--partial-pct');
+      if(idx < unitsFullyFilled){
+        u.classList.add('filled');
+      } else if(idx === unitsFullyFilled && remainder > 0){
+        u.classList.add('partial');
+        u.style.setProperty('--partial-pct', (remainder*100) + '%');
+      }
+    });
+
+    const pct = Math.min(100, (fundsRaisedSoFar / totalProject) * 100);
+    const pctOfBrickPool = Math.min(100, (fundsRaisedSoFar / brickPool) * 100);
+
+    progressBar.style.width = pctOfBrickPool + '%';
+    raisedLabel.textContent = formatCurrency(fundsRaisedSoFar) + ' raised';
+    goalLabel.textContent = 'of ' + formatCurrency(brickPool) + ' needed for the build';
+    bricksFilledLabel.textContent = bricksFilled.toLocaleString() + ' / ' + totalBricks.toLocaleString() + ' bricks laid';
+    pctDisplay.textContent = pct.toFixed(0) + '%';
+    raisedSub.textContent = 'over ' + formatCurrency(fundsRaisedSoFar) + ' raised of $1.35M Goal';
+  }
+
+  function updateFunds(){
+    const val = parseFloat(document.getElementById('fundsInput').value);
+    if(!isNaN(val) && val >= 0){
+      fundsRaisedSoFar = Math.min(val, brickPool);
+      renderState();
+    }
+  }
+
+  buildWall();
+  renderState();
+</script>
+
+</body>
+</html>
